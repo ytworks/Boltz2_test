@@ -48,5 +48,5 @@ RTX5090対応のBoltz2実行環境です。
 ## 技術仕様
 
 - ベースイメージ: NVIDIA CUDA 12.1.0 with cuDNN8
-- Python環境管理: uv
-- Boltz2: 公式リポジトリから最新版をインストール
+- Python環境管理: python3-venv
+- Boltz2: PyPIから最新版をインストール
