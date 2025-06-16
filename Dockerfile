@@ -1,6 +1,6 @@
 # NVIDIA CUDA base image for GPU support
-# Using CUDA 12.4 for RTX 5090 support
-FROM nvidia/cuda:12.4.1-cudnn9-runtime-ubuntu22.04
+# Using CUDA 12.8 for better RTX 5090 support
+FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu22.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
