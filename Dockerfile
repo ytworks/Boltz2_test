@@ -1,6 +1,6 @@
 # NVIDIA CUDA base image for GPU support
-# Using CUDA 12.1 for better PyTorch compatibility
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+# Using CUDA 12.4 for RTX 5090 support
+FROM nvidia/cuda:12.4.1-cudnn9-runtime-ubuntu22.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -34,8 +34,14 @@ ENV VIRTUAL_ENV="/app/venv"
 # Upgrade pip and install setuptools
 RUN pip install --upgrade pip setuptools wheel
 
+# Install PyTorch nightly with CUDA 12.8 support for RTX 5090 (sm_120)
+# This version includes support for newer GPU architectures
+RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+
 # Install Boltz2 from PyPI
-RUN pip install boltz -U
+# This will use the already installed PyTorch
+
+
 
 # Copy samples directory
 COPY samples /app/samples
