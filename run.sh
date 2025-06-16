@@ -61,7 +61,7 @@ docker run --rm \
     -v "$ABS_INPUT_FILE:/app/input.yaml:ro" \
     -v "$ABS_OUTPUT_DIR:/app/output" \
     boltz2-gpu:latest \
-    bash -c "boltz predict /app/input.yaml --output_dir /app/output $USE_MSA_SERVER"
+    bash -c "boltz predict /app/input.yaml --out_dir /app/output $USE_MSA_SERVER"
 
 if [ $? -eq 0 ]; then
     echo "Prediction completed successfully!"
