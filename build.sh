@@ -4,6 +4,10 @@
 
 echo "Building Boltz2 Docker image with GPU support..."
 
+# Clean up dangling images
+echo "Cleaning up dangling images..."
+docker rmi $(docker images -f "dangling=true" -q) -f 2>/dev/null || true
+
 # Build the Docker image
 docker build -t boltz2-gpu:latest .
 
