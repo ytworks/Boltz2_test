@@ -55,9 +55,11 @@ echo "Running Boltz2 prediction..."
 echo "Input: $INPUT_FILE"
 echo "Output: $OUTPUT_DIR"
 
-# Run Docker container with GPU support
+# Run Docker container with GPU support and increased shared memory
 docker run --rm \
     --gpus all \
+    --shm-size=10.13gb \
+    --ipc=host \
     -v "$ABS_INPUT_FILE:/app/input.yaml:ro" \
     -v "$ABS_OUTPUT_DIR:/app/output" \
     boltz2-gpu:latest \
