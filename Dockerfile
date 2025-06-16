@@ -1,5 +1,6 @@
 # NVIDIA CUDA base image for GPU support
-FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04
+# Using CUDA 12.1 for better PyTorch compatibility
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -7,26 +8,34 @@ ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3.10-dev \
+    python3.10-venv \
+    python3-pip \
     git \
     curl \
+    wget \
     build-essential \
     libssl-dev \
     libffi-dev \
-    python3-dev \
-    python3-pip \
-    python3-venv \
     && rm -rf /var/lib/apt/lists/*
+
+# Set Python 3.10 as default
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
 
 # Create working directory
 WORKDIR /app
 
-# Create and activate virtual environment
-RUN python3 -m venv /app/venv
+# Create and activate virtual environment with Python 3.10
+RUN python3.10 -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 ENV VIRTUAL_ENV="/app/venv"
 
 # Upgrade pip and install setuptools
 RUN pip install --upgrade pip setuptools wheel
+
+# Install PyTorch 2.2.0 with CUDA 12.1 support (meets Boltz2 requirement of torch>=2.2)
+RUN pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121
 
 # Install Boltz2 from PyPI
 RUN pip install boltz -U
