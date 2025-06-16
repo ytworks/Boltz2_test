@@ -34,14 +34,12 @@ ENV VIRTUAL_ENV="/app/venv"
 # Upgrade pip and install setuptools
 RUN pip install --upgrade pip setuptools wheel
 
-# Install PyTorch nightly with CUDA 12.8 support for RTX 5090 (sm_120)
-# This version includes support for newer GPU architectures
-RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+# First install Boltz2 to get all dependencies
+RUN pip install boltz -U
 
-# Install Boltz2 from PyPI
-# This will use the already installed PyTorch
-
-
+# Then force reinstall PyTorch nightly with CUDA 12.8 support for RTX 5090 (sm_120)
+# This will override the PyTorch version installed by Boltz2
+RUN pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128 --force-reinstall
 
 # Copy samples directory
 COPY samples /app/samples
