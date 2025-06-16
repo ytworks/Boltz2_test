@@ -34,9 +34,6 @@ ENV VIRTUAL_ENV="/app/venv"
 # Upgrade pip and install setuptools
 RUN pip install --upgrade pip setuptools wheel
 
-# Install PyTorch 2.2.0 with CUDA 12.1 support (meets Boltz2 requirement of torch>=2.2)
-RUN pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu121
-
 # Install Boltz2 from PyPI
 RUN pip install boltz -U
 
